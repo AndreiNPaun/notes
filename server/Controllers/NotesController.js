@@ -1,8 +1,13 @@
 const Notes = require('../Models/Notes');
 
+const { getUserIDFromToken } = require('../middleware/UserIDToken');
+
+// lists all notes which are connected to the logged on user id
 const list = async (req, res, next) => {
   try {
-    const response = await Notes.find();
+    const id = getUserIDFromToken(req.headers.authorization);
+
+    const response = await Notes.find({ user_id: id });
     res.json({
       response,
     });
@@ -13,11 +18,12 @@ const list = async (req, res, next) => {
   }
 };
 
+// write notes
 const write = async (req, res, next) => {
   try {
     const notes = new Notes({
       note: req.body.note,
-      user_id: req.body.user_id,
+      user_id: getUserIDFromToken(req.headers.authorization),
     });
 
     await notes.save();
@@ -27,7 +33,31 @@ const write = async (req, res, next) => {
   }
 };
 
+// deletes notes but only if the user id stored on the note matches the user id in the token
+const purge = async (req, res, next) => {
+  try {
+    const noteID = req.body.id;
+    const note = await Notes.findOne({ _id: noteID });
+
+    if (getUserIDFromToken(req.headers.authorization) === note.user_id) {
+      await Notes.findOneAndRemove(noteID);
+      res.json({
+        message: 'Note has been deleted.',
+      });
+    } else {
+      res.status(401).json({
+        message: 'Unauthorized request.',
+      });
+    }
+  } catch (error) {
+    res.json({
+      message: `An error has occured: ${error}`,
+    });
+  }
+};
+
 module.exports = {
   list,
   write,
+  purge,
 };
