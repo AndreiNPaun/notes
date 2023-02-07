@@ -2,7 +2,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 
+const dotenv = require('dotenv');
+dotenv.config();
+
 const AuthRoute = require('./Routes/Authenticate');
+const NotesRoute = require('./Routes/Notes');
 
 mongoose.connect('mongodb://localhost:27017/notes', {
   useNewUrlParser: true,
@@ -31,3 +35,4 @@ app.listen(PORT, () => {
 });
 
 app.use('/api', AuthRoute);
+app.use('/api/notes', NotesRoute);

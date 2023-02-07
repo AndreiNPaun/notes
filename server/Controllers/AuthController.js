@@ -2,102 +2,98 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const register = (req, res, next) => {
-  bcrypt.hash(req.body.password, 10, (err, hashedPass) => {
-    if (err) {
-      res.json({
-        error: err,
+const register = async (req, res, next) => {
+  try {
+    const existingEmail = await User.findOne({ email: req.body.email });
+    const exisingUsername = await User.findOne({ username: req.body.email });
+
+    if (existingEmail) {
+      return res.json({
+        error: 'Email already exists',
       });
     }
 
-    let user = new User({
+    if (exisingUsername) {
+      return res.json({
+        error: 'Username already exists',
+      });
+    }
+
+    const hashedPass = await bcrypt.hash(req.body.password, 10);
+    const user = new User({
       username: req.body.username,
       email: req.body.email,
       password: hashedPass,
     });
 
-    user
-      .save()
-      .then((user) => {
-        res.json({
-          message: 'User registered.',
-        });
-      })
-      .catch((e) => {
-        res.json({
-          message: 'An error has occured.',
-        });
-      });
-  });
+    await user.save();
+    res.json({
+      message: 'User registered',
+    });
+  } catch (err) {
+    res.json({
+      error: 'An error has occured.',
+    });
+  }
 };
 
-const login = (req, res, next) => {
-  var username = req.body.username;
-  var password = req.body.password;
+const login = async (req, res, next) => {
+  try {
+    const email = req.body.email;
+    const password = req.body.password;
 
-  // if email or phone is submited as username it will look for the user record in the db
-  User.findOne({ $or: [{ email: username }, { username: username }] }).then(
-    (user) => {
-      if (user) {
-        // compares entered password with the stored encrypted password
-        bcrypt.compare(password, user.password, (err, result) => {
-          if (err) {
-            res.json({
-              error: err,
-            });
-          }
-
-          // if sucessfull it create a token
-          if (result) {
-            let token = jwt.sign({ name: user.name }, 'secret', {
-              expiresIn: '1h',
-            });
-
-            let refreshToken = jwt.sign({ name: user.name }, 'refresh', {
-              expiresIn: '48h',
-            });
-            res.json({
-              message: 'Login Successful!',
-              token,
-              refreshToken,
-            });
-          } else {
-            res.json({
-              message: 'Wrong password.',
-            });
-          }
-        });
-        // if it cannot find a record it will return error
-      } else {
-        res.json({ message: 'User not found.' });
-      }
+    const user = await User.findOne({ email: email });
+    //console.log(`pula ${user._id}`);
+    if (!user) {
+      return res.json({ message: 'User not found.' });
     }
-  );
+
+    const passwordMatch = bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.json({ message: 'Wrong password.' });
+    }
+
+    const token = jwt.sign(
+      { email: user.email, id: user._id },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: process.env.ACCESS_TOKEN_EXPIRE_TIME }
+    );
+
+    const refreshToken = jwt.sign(
+      { email: user.email, id: user._id },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: process.env.REFRESH_TOKEN_EXPIRE_TIME }
+    );
+
+    res.json({ message: 'Login Successful!', token, refreshToken });
+  } catch (error) {
+    res.json({ error: `An error has occured: ${error}` });
+  }
 };
 
-// const refreshToken = (req, res, next) => {
-//   const refreshToken = req.body.refreshToken;
-//   jwt.verify(refreshToken, 'refresh', (err, decode) => {
-//     if (err) {
-//       res.status(400).json({
-//         err,
-//       });
-//     } else {
-//       let token = jwt.sign({ name: decode.name }, 'token', {
-//         expiresIn: '48h',
-//       });
-//       let refreshToken = req.body.refreshToken;
-//       res.status(200).json({
-//         message: 'Token refreshed successfully!',
-//         token,
-//         refreshToken,
-//       });
-//     }
-//   });
-// };
+const refreshToken = (req, res, next) => {
+  try {
+    const refreshToken = req.body.refreshToken;
+    const verify = jwt.verify(refreshToken, process.env.Refresh_TOKEN_SECRET);
+    const token = jwt.sign(
+      { email: verify.email, id: verify._id },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: process.env.ACCESS_TOKEN_EXPIRE_TIME }
+    );
+    res.json({
+      message: 'Token refreshed successfully',
+      token,
+      refreshToken,
+    });
+  } catch (error) {
+    res.status(400).json({
+      error,
+    });
+  }
+};
 
 module.exports = {
   register,
   login,
-  //   refreshToken,
+  refreshToken,
 };
