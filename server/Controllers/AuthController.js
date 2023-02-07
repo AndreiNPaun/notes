@@ -43,7 +43,7 @@ const login = async (req, res, next) => {
     const password = req.body.password;
 
     const user = await User.findOne({ email: email });
-    //console.log(`pula ${user._id}`);
+
     if (!user) {
       return res.json({ message: 'User not found.' });
     }

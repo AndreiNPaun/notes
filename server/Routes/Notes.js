@@ -5,7 +5,7 @@ const NotesController = require('../Controllers/NotesController');
 const authenticate = require('../middleware/Authenticate');
 
 router.get('/', authenticate, NotesController.list);
-router.post('/write', NotesController.write);
+router.post('/write', authenticate, NotesController.write);
+router.post('/delete', authenticate, NotesController.purge);
 
 module.exports = router;
-//authenticate,
