@@ -1,0 +1,29 @@
+.form {
+  width: 90%;
+  max-width: 60rem;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+
+.control {
+  margin: 1rem 0;
+  display: flex;
+  align-items: stretch;
+  flex-direction: row;
+}
+
+.actions {
+  text-align: center;
+}
+
+.actions {
+  text-align: center;
+}
+
+/* @media (min-width: 768px) {
+    .control {
+      align-items: center;
+      flex-direction: row;
+    }
+  
+  } */

@@ -1,8 +1,11 @@
+import React from 'react';
+import Homepage from './components/Homepage';
+
 function App() {
   return (
-    <div className="App">
-      <p>Hellow World!</p>
-    </div>
+    <React.Fragment>
+      <Homepage />
+    </React.Fragment>
   );
 }
 
