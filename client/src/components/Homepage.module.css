@@ -1,0 +1,11 @@
+.form {
+  width: 90%;
+  max-width: 60rem;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+
+.center {
+  text-align: center;
+  margin: 1rem;
+}
