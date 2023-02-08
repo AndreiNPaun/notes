@@ -48,7 +48,7 @@ const login = async (req, res, next) => {
       return res.json({ message: 'User not found.' });
     }
 
-    const passwordMatch = bcrypt.compare(password, user.password);
+    const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
       return res.json({ message: 'Wrong password.' });
     }

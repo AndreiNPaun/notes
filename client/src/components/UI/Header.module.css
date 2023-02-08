@@ -1,0 +1,23 @@
+.header {
+  width: 100%;
+  height: 4rem;
+  background-color: #741188;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header h1 {
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+  margin: 0.7rem 0 0 1rem;
+}
+
+.header div {
+  margin: 0;
+  padding: 0;
+  margin: 1.3rem 1rem 0 0;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
