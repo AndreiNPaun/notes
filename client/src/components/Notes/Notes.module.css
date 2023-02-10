@@ -1,28 +1,24 @@
-.form {
+.card {
   width: 90%;
-  max-width: 60rem;
+  max-width: 50rem;
+  margin: 0 auto;
+}
+
+.list {
   margin: 2rem auto;
   padding: 2rem;
+  height: auto;
 }
 
 .control {
-  margin: 1rem 0;
+  margin: 1rem 0 0 0;
   display: flex;
   align-items: stretch;
   flex-direction: row;
 }
 
-.actions {
-  text-align: center;
-}
-
-/* Come back */
-.control label,
-.control input {
-  display: block;
-}
-
 .control label {
+  margin-top: 2rem;
   font-weight: bold;
   font-size: 1.3rem;
   flex: 1;
@@ -30,7 +26,9 @@
   margin-bottom: 0.5rem;
 }
 
-.control input {
+.control textarea {
+  resize: none;
+  height: 6rem;
   flex: 3;
   font: inherit;
   padding: 0.7rem 0.7rem;
@@ -38,23 +36,28 @@
   border: 1px solid #ccc;
 }
 
-.control input:focus {
+.control textarea:focus {
   outline: none;
   border-color: #4f005f;
   background: #ebdfee;
 }
 
-/* .control input {
-  width: 85%;
-  margin: 0 auto;
-  height: 3em;
-  border-radius: 8px;
-} */
+.actions {
+  text-align: center;
+  padding: 0 0 1rem 0;
+}
 
-/* @media (min-width: 768px) {
-    .control {
-      align-items: center;
-      flex-direction: row;
-    }
-  
-  } */
+/* Comeback */
+ul {
+  list-style: none;
+}
+
+.list_notes {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: solid #464646;
+  padding: 0.75rem;
+}
+
+li {
+}

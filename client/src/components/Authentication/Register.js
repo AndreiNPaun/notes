@@ -27,9 +27,7 @@ const Register = () => {
   };
 
   // after for submission store input data in variables and then call the register function to create user account
-  const registerHandler = (event) => {
-    //event.preventDefault();
-
+  const registerHandler = () => {
     const enteredUsername = usernameInputRef.current.value;
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
