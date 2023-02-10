@@ -30,7 +30,6 @@ const Login = () => {
 
   const loginHandler = (event) => {
     event.preventDefault();
-
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 

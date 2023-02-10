@@ -37,18 +37,11 @@ const write = async (req, res, next) => {
 const purge = async (req, res, next) => {
   try {
     const noteID = req.body.id;
-    const note = await Notes.findOne({ _id: noteID });
 
-    if (getUserIDFromToken(req.headers.authorization) === note.user_id) {
-      await Notes.findOneAndRemove(noteID);
-      res.json({
-        message: 'Note has been deleted.',
-      });
-    } else {
-      res.status(401).json({
-        message: 'Unauthorized request.',
-      });
-    }
+    await Notes.findOneAndRemove({ _id: noteID });
+    res.json({
+      message: `Note has been deleted. ${noteID}`,
+    });
   } catch (error) {
     res.json({
       message: `An error has occured: ${error}`,
