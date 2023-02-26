@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import classes from './Form.module.css';
 import Card from '../UI/Card';
@@ -6,6 +7,8 @@ import Input from '../UI/Input';
 import Button from '../UI/Button';
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
 
@@ -21,7 +24,7 @@ const Login = () => {
       });
 
       const data = await response.json();
-      console.log(data);
+
       localStorage.setItem('token', data.token);
       localStorage.setItem('refreshToken', data.refreshToken);
     } catch (error) {
@@ -29,8 +32,9 @@ const Login = () => {
     }
   };
 
-  const loginHandler = (event) => {
+  const loginHandler = async (event) => {
     event.preventDefault();
+
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
@@ -39,7 +43,12 @@ const Login = () => {
       password: enteredPassword,
     };
 
-    login(user);
+    try {
+      await login(user);
+      navigate('/');
+    } catch (error) {
+      console.error('Error:', error);
+    }
 
     emailInputRef.current.value = '';
     passwordInputRef.current.value = '';

@@ -1,12 +1,19 @@
-import Header from '../UI/Header';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Logout = (props) => {
-  const logout = () => {
+const Logout = () => {
+  const clearToken = () => {
     localStorage.clear('token');
     localStorage.clear('refreshToken');
+
+    window.location.reload(false);
   };
 
-  return <Header token={props.token} logout={logout} />;
+  return (
+    <Link to="" onClick={clearToken}>
+      Logout
+    </Link>
+  );
 };
 
 export default Logout;
