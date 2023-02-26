@@ -39,6 +39,7 @@ const Homepage = () => {
       {verifyLogin && <ListNotes />}
       {!registerButton && !loginButton && !verifyLogin && (
         <Card className={classes.form}>
+          <h1>Welcome to Notes</h1>
           <div className={classes.center}>
             <Button type="submit" onClick={registerForm}>
               Register
@@ -46,7 +47,7 @@ const Homepage = () => {
           </div>
           <div className={classes.center}>
             <Button type="submit" onClick={loginForm}>
-              Login0
+              Login
             </Button>
           </div>
         </Card>

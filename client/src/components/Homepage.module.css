@@ -9,3 +9,9 @@
   text-align: center;
   margin: 1rem;
 }
+
+h1 {
+  text-align: center;
+  padding: 1rem;
+  color: #464646;
+}

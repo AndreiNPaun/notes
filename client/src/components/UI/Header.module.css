@@ -21,3 +21,12 @@
   font-weight: bold;
   font-size: 1.2rem;
 }
+
+.button {
+  border-radius: 0;
+}
+
+.button:hover,
+.button:active {
+  background-color: #370a41;
+}
