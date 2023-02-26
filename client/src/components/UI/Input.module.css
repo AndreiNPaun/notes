@@ -1,33 +1,9 @@
-.label,
-.input {
-  display: block;
-}
-
-.label {
+label {
   font-weight: bold;
   font-size: 1.3rem;
-  flex: 1;
   color: #464646;
-  margin-bottom: 0.5rem;
 }
 
-.input {
-  flex: 3;
+input {
   font: inherit;
-  padding: 0.7rem 0.7rem;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-.input:focus {
-  outline: none;
-  border-color: #4f005f;
-  background: #ebdfee;
-}
-
-.input {
-  width: 85%;
-  margin: 0 auto;
-  height: 3em;
-  border-radius: 8px;
 }

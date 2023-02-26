@@ -3,6 +3,7 @@ import React, { useRef } from 'react';
 import classes from './Form.module.css';
 import Card from '../UI/Card';
 import Button from '../UI/Button';
+import Input from '../UI/Input';
 
 const Register = () => {
   const usernameInputRef = useRef();
@@ -54,20 +55,42 @@ const Register = () => {
     <Card className={classes.form}>
       <form onSubmit={registerHandler}>
         <div className={classes.control}>
-          <label htmlFor="username">Username</label>
-          <input type="text" id="username" ref={usernameInputRef} />
+          <Input
+            labelClassName={classes.label}
+            inputClassName={classes.input}
+            htmlFor="username"
+            labelText="Username"
+            id="username"
+            ref={usernameInputRef}
+          />
         </div>
         <div className={classes.control}>
-          <label htmlFor="email">Email</label>
-          <input type="email" id="email" ref={emailInputRef} />
+          <Input
+            labelClassName={classes.label}
+            inputClassName={classes.input}
+            htmlFor="email"
+            labelText="Email"
+            type="email"
+            id="email"
+            ref={emailInputRef}
+          />
         </div>
         <div className={classes.control}>
-          <label htmlFor="password">Password</label>
-          <input type="password" id="password" ref={passwordInputRef} />
+          <Input
+            labelClassName={classes.label}
+            inputClassName={classes.input}
+            htmlFor="password"
+            labelText="Password"
+            type="password"
+            id="password"
+            ref={passwordInputRef}
+          />
         </div>
-        <Button type="submit" buttonCenter={classes.actions}>
-          Register
-        </Button>
+        <div className={classes.actions}>
+          <Button type="submit" buttonCenter={classes.actions}>
+            Register
+          </Button>
+        </div>
       </form>
     </Card>
   );

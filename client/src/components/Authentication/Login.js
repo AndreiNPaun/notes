@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 
 import classes from './Form.module.css';
 import Card from '../UI/Card';
+import Input from '../UI/Input';
 import Button from '../UI/Button';
 
 const Login = () => {
@@ -48,16 +49,31 @@ const Login = () => {
     <Card className={classes.form}>
       <form onSubmit={loginHandler}>
         <div className={classes.control}>
-          <label htmlFor="email">Email</label>
-          <input type="email" id="email" ref={emailInputRef} />
+          <Input
+            labelClassName={classes.label}
+            inputClassName={classes.input}
+            htmlFor="email"
+            labelText="Email"
+            id="email"
+            ref={emailInputRef}
+          />
         </div>
         <div className={classes.control}>
-          <label htmlFor="password">Password</label>
-          <input type="password" id="password" ref={passwordInputRef} />
+          <Input
+            labelClassName={classes.label}
+            inputClassName={classes.input}
+            htmlFor="password"
+            labelText="Password"
+            type="password"
+            id="password"
+            ref={passwordInputRef}
+          />
         </div>
-        <Button type="submit" buttonCenter={classes.actions}>
-          Login
-        </Button>
+        <div className={classes.actions}>
+          <Button type="submit" buttonCenter={classes.actions}>
+            Login
+          </Button>
+        </div>
       </form>
     </Card>
   );

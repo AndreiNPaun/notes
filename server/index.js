@@ -42,5 +42,9 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
 
+app.get('/', (req, res) => {
+  res.send('<h1>Server is running</h1>');
+});
+
 app.use('/api', AuthRoute);
 app.use('/api/notes', NotesRoute);

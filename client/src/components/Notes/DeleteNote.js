@@ -1,6 +1,7 @@
 import React from 'react';
 
-//import classes from './DeleteNote.module.css';
+import Button from '../UI/Button';
+import classes from './DeleteNote.module.css';
 
 const DeleteNote = (props) => {
   const purge = async () => {
@@ -30,7 +31,11 @@ const DeleteNote = (props) => {
     }
   };
 
-  return <button onClick={purge}>Delete</button>;
+  return (
+    <Button className={classes.delete_button} onClick={purge}>
+      Delete
+    </Button>
+  );
 };
 
 export default DeleteNote;
