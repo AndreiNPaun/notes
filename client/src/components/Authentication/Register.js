@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import classes from './Form.module.css';
 import Card from '../UI/Card';
@@ -6,6 +7,8 @@ import Button from '../UI/Button';
 import Input from '../UI/Input';
 
 const Register = () => {
+  const navigate = useNavigate();
+
   const usernameInputRef = useRef();
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
@@ -28,7 +31,9 @@ const Register = () => {
   };
 
   // after for submission store input data in variables and then call the register function to create user account
-  const registerHandler = () => {
+  const registerHandler = (event) => {
+    event.preventDefault();
+
     const enteredUsername = usernameInputRef.current.value;
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
@@ -49,6 +54,8 @@ const Register = () => {
     usernameInputRef.current.value = '';
     emailInputRef.current.value = '';
     passwordInputRef.current.value = '';
+
+    navigate('/login');
   };
 
   return (

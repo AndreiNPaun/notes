@@ -1,7 +1,7 @@
 .card {
   width: 90%;
   max-width: 50rem;
-  margin: 0 auto;
+  margin: 1rem auto;
 }
 
 .list {
@@ -62,4 +62,12 @@ ul {
 li {
   margin: 1rem;
   color: #464646;
+}
+
+.add_notes_button {
+  margin: 2rem;
+}
+
+.add_notes_button__spacing {
+  margin: 0.5rem;
 }
