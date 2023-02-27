@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import cookie from 'js-cookie';
 
 import CreateNotes from './Notes/CreateNote';
 import ListNotes from './Notes/ListNotes';
@@ -8,7 +9,7 @@ import classes from './Home.module.css';
 import Button from './UI/Button';
 
 const Home = () => {
-  const token = localStorage.getItem('token');
+  const token = cookie.get('token');
 
   const [loading, setLoading] = useState(true);
   const [content, setContent] = useState(

@@ -1,4 +1,6 @@
 import React, { useState, useRef } from 'react';
+import axios from 'axios';
+import cookie from 'js-cookie';
 
 import classes from './Notes.module.css';
 import Card from '../UI/Card';
@@ -11,18 +13,20 @@ const CreateNotes = () => {
 
   const noteSubmit = async (note) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = cookie.get('token');
       console.log(token);
-      const response = await fetch('http://localhost:8000/api/notes/write', {
-        method: 'POST',
-        body: JSON.stringify(note),
-        headers: {
-          'Content-type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.post(
+        'http://localhost:8000/api/notes/write',
+        note,
+        {
+          headers: {
+            'Content-type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-      const data = await response.json();
+      const data = await response.data;
       console.log(data);
     } catch (error) {
       console.error('Error:', error);

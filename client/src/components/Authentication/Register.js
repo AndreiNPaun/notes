@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 import classes from './Form.module.css';
 import Card from '../UI/Card';
@@ -16,15 +17,16 @@ const Register = () => {
   // store data in db
   const register = async (user) => {
     try {
-      const response = await fetch('http://localhost:8000/api/register', {
-        method: 'POST',
-        body: JSON.stringify(user),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const data = await response.json();
-      console.log(data);
+      const response = await axios.post(
+        'http://localhost:8000/api/register',
+        user,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      console.log(response.data);
     } catch (error) {
       console.error('Error:', error);
     }
