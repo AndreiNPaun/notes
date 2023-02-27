@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-
 import DeleteNote from './DeleteNote';
-
 import classes from './Notes.module.css';
 import Card from '../UI/Card';
 
@@ -15,22 +13,17 @@ const ListNotes = () => {
     setError(null);
     try {
       const token = localStorage.getItem('token');
-
       const response = await fetch('http://localhost:8000/api/notes/', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
       if (!response.ok) {
         throw new Error('Something went wrong.');
       }
-
       const data = await response.json();
-
       const loadedNotes = [];
       const resp = data.response;
-
       for (const key in resp) {
         loadedNotes.push({
           id: resp[key]._id,
@@ -38,7 +31,6 @@ const ListNotes = () => {
         });
       }
       setNotes(loadedNotes);
-      console.log(loadedNotes);
     } catch (error) {
       setError(error.message);
     }
@@ -49,6 +41,26 @@ const ListNotes = () => {
     fetchNotesHandler();
   }, [fetchNotesHandler]);
 
+  const deleteNoteHandler = async (noteId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:8000/api/notes/delete`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ id: noteId }),
+      });
+      if (!response.ok) {
+        throw new Error('Something went wrong.');
+      }
+      setNotes((prevNotes) => prevNotes.filter((note) => note.id !== noteId));
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
   let content = <p>Found no notes.</p>;
 
   if (notes.length > 0) {
@@ -57,7 +69,7 @@ const ListNotes = () => {
         {notes.map((note) => (
           <div key={note.id} className={classes.list_notes}>
             <li key={note.id}>{note.note}</li>
-            <DeleteNote noteID={note.id} />
+            <DeleteNote noteID={note.id} onDeleteNote={deleteNoteHandler} />
           </div>
         ))}
       </ul>
