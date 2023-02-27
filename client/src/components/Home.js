@@ -13,8 +13,10 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [content, setContent] = useState(
     <Card className={classes.form}>
-      <h1>Welcome to Notes</h1>
-      <p>lorem20</p>
+      <div className={classes.center}>
+        <h1>Welcome to Notes</h1>
+        <p>This is an interactive notes app, developed using the MERN stack.</p>
+      </div>
     </Card>
   );
 

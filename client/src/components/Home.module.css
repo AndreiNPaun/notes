@@ -11,7 +11,11 @@
 }
 
 h1 {
-  text-align: center;
   padding: 1rem;
   color: #464646;
+}
+
+p {
+  color: #464646;
+  font-size: 1.3rem;
 }
