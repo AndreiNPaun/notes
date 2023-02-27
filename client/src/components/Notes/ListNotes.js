@@ -47,7 +47,7 @@ const ListNotes = () => {
   const deleteNoteHandler = async (noteId) => {
     try {
       const token = cookie.get('token');
-      const response = await axios.post(
+      await axios.post(
         `http://localhost:8000/api/notes/delete`,
         { id: noteId },
         {

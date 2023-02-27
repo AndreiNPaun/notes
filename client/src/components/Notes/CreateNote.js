@@ -14,7 +14,6 @@ const CreateNotes = () => {
   const noteSubmit = async (note) => {
     try {
       const token = cookie.get('token');
-      console.log(token);
       const response = await axios.post(
         'http://localhost:8000/api/notes/write',
         note,

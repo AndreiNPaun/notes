@@ -6,7 +6,6 @@ import ListNotes from './Notes/ListNotes';
 
 import Card from './UI/Card';
 import classes from './Home.module.css';
-import Button from './UI/Button';
 
 const Home = () => {
   const token = cookie.get('token');

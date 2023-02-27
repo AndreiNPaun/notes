@@ -17,16 +17,11 @@ const Register = () => {
   // store data in db
   const register = async (user) => {
     try {
-      const response = await axios.post(
-        'http://localhost:8000/api/register',
-        user,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-      console.log(response.data);
+      await axios.post('http://localhost:8000/api/register', user, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
     } catch (error) {
       console.error('Error:', error);
     }
