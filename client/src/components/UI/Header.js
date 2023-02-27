@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import cookie from 'js-cookie';
 
 import Logout from '../Authentication/Logout';
 import classes from './Header.module.css';
@@ -7,7 +8,7 @@ import classes from './Header.module.css';
 // promise that it will get the token once it is stored in local storage
 const getToken = () => {
   return new Promise((resolve) => {
-    const token = localStorage.getItem('token');
+    const token = cookie.get('token');
     if (token) {
       resolve(token);
     } else {

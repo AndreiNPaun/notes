@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import cookie from 'js-cookie';
 
 const Logout = () => {
   const clearToken = () => {
-    localStorage.clear('token');
-    localStorage.clear('refreshToken');
+    cookie.remove('token');
+    cookie.remove('refreshToken');
 
     window.location.reload(false);
   };

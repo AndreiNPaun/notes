@@ -1,5 +1,7 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import cookie from 'js-cookie';
 
 import classes from './Form.module.css';
 import Card from '../UI/Card';
@@ -15,18 +17,22 @@ const Login = () => {
   // post request with input data which will run a check to confirm identity
   const login = async (user) => {
     try {
-      const response = await fetch('http://localhost:8000/api/login', {
-        method: 'POST',
-        body: JSON.stringify(user),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await axios.post(
+        'http://localhost:8000/api/login',
+        user,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
 
-      const data = await response.json();
+      const data = response.data;
 
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('refreshToken', data.refreshToken);
+      // sets the cookie to expire in 2h
+      const expireTwoHours = 2 / 24;
+      cookie.set('token', data.token, { expires: expireTwoHours });
+      cookie.set('token', data.token, { expires: 2 });
     } catch (error) {
       console.error('Error:', error);
     }
