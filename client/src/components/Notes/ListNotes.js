@@ -3,8 +3,8 @@ import axios from 'axios';
 import cookie from 'js-cookie';
 
 import DeleteNote from './DeleteNote';
-import classes from './Notes.module.css';
 import Card from '../UI/Card';
+import { Flex, UnorderedList, ListItem, Box } from '@chakra-ui/react';
 
 const ListNotes = () => {
   const [notes, setNotes] = useState([]);
@@ -68,14 +68,21 @@ const ListNotes = () => {
 
   if (notes.length > 0) {
     content = (
-      <ul>
+      <UnorderedList listStyleType="none">
         {notes.map((note) => (
-          <div key={note.id} className={classes.list_notes}>
-            <li key={note.id}>{note.note}</li>
+          <Flex
+            key={note.id}
+            justifyContent="space-between"
+            borderBottom="solid #464646"
+            p="0.75rem"
+          >
+            <ListItem m="1rem" color="#464646" key={note.id}>
+              {note.note}
+            </ListItem>
             <DeleteNote noteID={note.id} onDeleteNote={deleteNoteHandler} />
-          </div>
+          </Flex>
         ))}
-      </ul>
+      </UnorderedList>
     );
   }
 
@@ -87,9 +94,18 @@ const ListNotes = () => {
     content = <p>Loading...</p>;
   }
 
+  // styles
+  const cardStyle = {
+    w: '90%',
+    maxW: '50rem',
+    m: '1rem auto',
+  };
+
   return (
-    <Card className={classes.card}>
-      <div className={classes.list}>{content}</div>
+    <Card cardStyle={cardStyle}>
+      <Box m="2rem auto" p="2rem" h="auto">
+        {content}
+      </Box>
     </Card>
   );
 };

@@ -1,18 +1,23 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import cookie from 'js-cookie';
+import { Center } from '@chakra-ui/react';
 
-import classes from './Form.module.css';
 import Card from '../UI/Card';
-import Input from '../UI/Input';
+import InputFields from '../UI/InputFields';
 import Button from '../UI/Button';
+import Styles from '../UI/LoginRegiserFormStyles';
 
 const Login = () => {
   const navigate = useNavigate();
 
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
+
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const [labelStyle, inputStyle, cardStyle] = Styles();
 
   // post request with input data which will run a check to confirm identity
   const login = async (user) => {
@@ -34,7 +39,8 @@ const Login = () => {
       cookie.set('token', data.token, { expires: expireTwoHours });
       cookie.set('token', data.token, { expires: 2 });
     } catch (error) {
-      console.error('Error:', error);
+      setErrorMessage('Invalid email and/ or password.');
+      throw new Error(error);
     }
   };
 
@@ -61,34 +67,29 @@ const Login = () => {
   };
 
   return (
-    <Card className={classes.form}>
+    <Card cardStyle={cardStyle}>
       <form onSubmit={loginHandler}>
-        <div className={classes.control}>
-          <Input
-            labelClassName={classes.label}
-            inputClassName={classes.input}
-            htmlFor="email"
-            labelText="Email"
-            id="email"
-            ref={emailInputRef}
-          />
-        </div>
-        <div className={classes.control}>
-          <Input
-            labelClassName={classes.label}
-            inputClassName={classes.input}
-            htmlFor="password"
-            labelText="Password"
-            type="password"
-            id="password"
-            ref={passwordInputRef}
-          />
-        </div>
-        <div className={classes.actions}>
-          <Button type="submit" buttonCenter={classes.actions}>
-            Login
-          </Button>
-        </div>
+        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+        <InputFields
+          labelStyle={labelStyle}
+          inputStyle={inputStyle}
+          htmlFor="email"
+          labelText="Email"
+          id="email"
+          ref={emailInputRef}
+        />
+        <InputFields
+          labelStyle={labelStyle}
+          inputStyle={inputStyle}
+          htmlFor="password"
+          labelText="Password"
+          type="password"
+          id="password"
+          ref={passwordInputRef}
+        />
+        <Center mt="1rem">
+          <Button type="submit">Login</Button>
+        </Center>
       </form>
     </Card>
   );

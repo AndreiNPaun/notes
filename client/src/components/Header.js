@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import cookie from 'js-cookie';
 
-import Logout from '../Authentication/Logout';
-import classes from './Header.module.css';
+import Logout from './Authentication/Logout';
+import HeaderStyle from './HeaderStyle';
 
 // promise that it will get the token once it is stored in local storage
 const getToken = () => {
@@ -21,12 +20,10 @@ const getToken = () => {
 
 const Header = () => {
   const [token, setToken] = useState(null);
-  const [nav, setNav] = useState(
-    <nav>
-      <Link to="login">Login</Link>
-      <Link to="register">Register</Link>
-    </nav>
-  );
+  const [nav, setNav] = useState([
+    { text: 'Login', path: 'login' },
+    { text: 'Register', path: 'register' },
+  ]);
 
   // awaits for token
   useEffect(() => {
@@ -40,22 +37,11 @@ const Header = () => {
   // updates navbar once the token state changes
   useEffect(() => {
     if (token) {
-      setNav(
-        <nav>
-          <Logout />
-        </nav>
-      );
+      setNav([{ text: 'Logout', path: '', onClick: Logout }]);
     }
   }, [token]);
 
-  return (
-    <header className={classes.header}>
-      <Link to="" className={classes.home_button}>
-        Notes
-      </Link>
-      {nav}
-    </header>
-  );
+  return <HeaderStyle logo="Notes" links={nav} />;
 };
 
 export default Header;

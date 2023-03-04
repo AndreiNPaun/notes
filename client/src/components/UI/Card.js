@@ -1,9 +1,17 @@
-import classes from './Card.module.css';
+import { Box } from '@chakra-ui/react';
 
 // component which will apply a background colour and border styling
 const Card = (props) => {
+  const { children, cardStyle } = props;
   return (
-    <div className={`${classes.card} ${props.className}`}>{props.children}</div>
+    <Box
+      bg="white"
+      boxShadow="0 2px 8px rgba(0, 0, 0, 0.26)"
+      borderRadius="10px"
+      {...cardStyle}
+    >
+      {children}
+    </Box>
   );
 };
 

@@ -1,20 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
 import cookie from 'js-cookie';
 
 const Logout = () => {
-  const clearToken = () => {
-    cookie.remove('token');
-    cookie.remove('refreshToken');
+  cookie.remove('token');
+  cookie.remove('refreshToken');
 
-    window.location.reload(false);
-  };
-
-  return (
-    <Link to="" onClick={clearToken}>
-      Logout
-    </Link>
-  );
+  window.location.reload(false);
 };
 
 export default Logout;

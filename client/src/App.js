@@ -1,8 +1,9 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
+import { ChakraProvider } from '@chakra-ui/react';
+
 import Homepage from './pages/Homepage';
 import LoginPage from './pages/Login';
-import LogoutPage from './pages/Logout';
 import RegisterPage from './pages/Register';
 import RootLayout from './pages/RootLayout';
 
@@ -14,7 +15,6 @@ const router = createBrowserRouter([
       { index: true, element: <Homepage /> },
       { path: 'login', element: <LoginPage /> },
       { path: 'register', element: <RegisterPage /> },
-      { path: 'logout', element: <LogoutPage /> },
     ],
   },
 ]);
@@ -22,7 +22,9 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
-      <RouterProvider router={router} />
+      <ChakraProvider>
+        <RouterProvider router={router} />
+      </ChakraProvider>
     </>
   );
 }
