@@ -1,6 +1,6 @@
+import { HStack } from '@chakra-ui/react';
 import React from 'react';
 import Button from '../UI/Button';
-import classes from './DeleteNote.module.css';
 
 const DeleteNote = (props) => {
   const purge = async () => {
@@ -12,9 +12,11 @@ const DeleteNote = (props) => {
   };
 
   return (
-    <Button className={classes.delete_button} onClick={purge}>
-      Delete
-    </Button>
+    <HStack>
+      <Button fontSize="md" borderRadius="8px" onClick={purge}>
+        Delete
+      </Button>
+    </HStack>
   );
 };
 

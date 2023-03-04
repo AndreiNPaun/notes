@@ -2,9 +2,9 @@ import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import cookie from 'js-cookie';
 
-import classes from './Notes.module.css';
 import Card from '../UI/Card';
 import Button from '../UI/Button';
+import { Center, FormLabel, Textarea, Flex } from '@chakra-ui/react';
 
 const CreateNotes = () => {
   const [createNote, setCreateNote] = useState(false);
@@ -51,38 +51,63 @@ const CreateNotes = () => {
     inputNoteRef.current.value = '';
   };
 
+  // styles
+  const cardStyle = {
+    w: '90%',
+    maxW: '50rem',
+    m: '1rem auto',
+  };
+
+  const labelStyle = {
+    mt: '2rem',
+    flex: 1,
+    color: '#464646',
+    mb: '0.5rem',
+  };
+
+  const textareaStyling = {
+    resize: 'none',
+    height: '6rem',
+    flex: 3,
+    padding: '0.7rem 0.7rem',
+    borderRadius: '6px',
+    border: '1px solid #ccc',
+    _focus: {
+      borderColor: '#4f005f',
+      bg: '#ebdfee',
+      boxShadow: 'none',
+    },
+  };
+
   return (
-    <Card className={classes.card}>
+    <Card cardStyle={cardStyle}>
       {!createNote && (
-        <div className={classes.actions}>
-          <Button
-            extraClassName={classes.add_notes_button}
-            onClick={createNoteHandler}
-          >
+        <Center>
+          <Button m="1rem" onClick={createNoteHandler}>
             Create a New Note
           </Button>
-        </div>
+        </Center>
       )}
       {createNote && (
         <form onSubmit={submitNoteHandler}>
-          <div className={`${classes.list} ${classes.control}`}>
-            <label htmlFor="note">Write a new note!</label>
-            <textarea id="note" ref={inputNoteRef}></textarea>
-          </div>
-          <div className={classes.actions}>
-            <Button
-              extraClassName={classes.add_notes_button__spacing}
-              type="submit"
-            >
+          <Flex mt="1rem" p="2rem" alignItems="stretch" flexDirection="row">
+            <FormLabel htmlFor="note" {...labelStyle}>
+              Write a new note!
+            </FormLabel>
+            <Textarea
+              id="note"
+              ref={inputNoteRef}
+              {...textareaStyling}
+            ></Textarea>
+          </Flex>
+          <Center>
+            <Button m="0.5rem" type="submit">
               Create Note
             </Button>
-            <Button
-              extraClassName={classes.add_notes_button__spacing}
-              onClick={closeNoteHandler}
-            >
+            <Button m="0.5rem" onClick={closeNoteHandler}>
               Close Form
             </Button>
-          </div>
+          </Center>
         </form>
       )}
     </Card>

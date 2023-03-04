@@ -1,23 +1,23 @@
 import React from 'react';
+import { Button as ButtonChakra } from '@chakra-ui/react';
 
-import classes from './Button.module.css';
-
-// Reusable button
 const Button = (props) => {
+  const { type, onClick, onBlur, children, ...styles } = props;
+
   return (
-    <button
-      type={props.type || 'button'}
-      className={
-        props.className ||
-        `${classes.button} ${props.className || ''} ${
-          props.extraClassName || ''
-        }`
-      }
-      onClick={props.onClick}
-      onBlur={props.onBlur}
+    <ButtonChakra
+      type={type || 'button'}
+      onClick={onClick}
+      onBlur={onBlur}
+      bg="#4f005f"
+      border="1px solid #4f005f"
+      color="white"
+      _hover={{ bg: '#741188', borderColor: '#741188' }}
+      _active={{ bg: '#741188', borderColor: '#741188' }}
+      {...styles} // unique styles sent from component as array of styles
     >
-      {props.children}
-    </button>
+      {children}
+    </ButtonChakra>
   );
 };
 

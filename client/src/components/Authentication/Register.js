@@ -1,11 +1,12 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Center } from '@chakra-ui/react';
 
-import classes from './Form.module.css';
 import Card from '../UI/Card';
 import Button from '../UI/Button';
-import Input from '../UI/Input';
+import InputFields from '../UI/InputFields';
+import Styles from '../UI/LoginRegiserFormStyles';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -13,6 +14,8 @@ const Register = () => {
   const usernameInputRef = useRef();
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
+
+  const [labelStyle, inputStyle, cardStyle] = Styles();
 
   // store data in db
   const register = async (user) => {
@@ -56,45 +59,39 @@ const Register = () => {
   };
 
   return (
-    <Card className={classes.form}>
+    <Card cardStyle={cardStyle}>
       <form onSubmit={registerHandler}>
-        <div className={classes.control}>
-          <Input
-            labelClassName={classes.label}
-            inputClassName={classes.input}
-            htmlFor="username"
-            labelText="Username"
-            id="username"
-            ref={usernameInputRef}
-          />
-        </div>
-        <div className={classes.control}>
-          <Input
-            labelClassName={classes.label}
-            inputClassName={classes.input}
-            htmlFor="email"
-            labelText="Email"
-            type="email"
-            id="email"
-            ref={emailInputRef}
-          />
-        </div>
-        <div className={classes.control}>
-          <Input
-            labelClassName={classes.label}
-            inputClassName={classes.input}
-            htmlFor="password"
-            labelText="Password"
-            type="password"
-            id="password"
-            ref={passwordInputRef}
-          />
-        </div>
-        <div className={classes.actions}>
-          <Button type="submit" buttonCenter={classes.actions}>
-            Register
-          </Button>
-        </div>
+        <InputFields
+          labelStyle={labelStyle}
+          inputStyle={inputStyle}
+          htmlFor="username"
+          labelText="Username"
+          id="username"
+          ref={usernameInputRef}
+        />
+
+        <InputFields
+          labelStyle={labelStyle}
+          inputStyle={inputStyle}
+          htmlFor="email"
+          labelText="Email"
+          type="email"
+          id="email"
+          ref={emailInputRef}
+        />
+
+        <InputFields
+          labelStyle={labelStyle}
+          inputStyle={inputStyle}
+          htmlFor="password"
+          labelText="Password"
+          type="password"
+          id="password"
+          ref={passwordInputRef}
+        />
+        <Center mt="1rem">
+          <Button type="submit">Register</Button>
+        </Center>
       </form>
     </Card>
   );
