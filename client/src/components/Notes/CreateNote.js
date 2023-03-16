@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { noteActions } from '../../store/slice/note';
-import axios from 'axios';
+import { submitNote } from '../../store/action/note';
 
 import Card from '../UI/Card';
 import Button from '../UI/Button';
@@ -16,26 +16,6 @@ const CreateNotes = () => {
 
   const inputNoteRef = useRef();
 
-  const noteSubmit = async (note) => {
-    try {
-      const response = await axios.post(
-        'http://localhost:8000/api/notes/write',
-        note,
-        {
-          headers: {
-            'Content-type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      const data = await response.data;
-      console.log(data);
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
-
   const createNoteHandler = () => {
     setCreateNote(true);
   };
@@ -48,14 +28,10 @@ const CreateNotes = () => {
     event.preventDefault();
 
     const formInput = inputNoteRef.current.value;
-    const note = {
-      note: formInput,
-    };
 
-    noteSubmit(note);
     inputNoteRef.current.value = '';
 
-    dispatch(noteActions.addNote(note.note));
+    dispatch(submitNote({ note: formInput, token: token }));
 
     setCreateNote(false);
   };

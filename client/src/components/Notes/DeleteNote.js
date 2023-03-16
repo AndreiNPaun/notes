@@ -11,7 +11,7 @@ const DeleteNote = (props) => {
   const purge = async () => {
     console.log('delete comp', props.noteID);
     try {
-      dispatch(deleteNote(props.token, props.noteID));
+      await dispatch(deleteNote({ token: props.token, noteId: props.noteID }));
     } catch (error) {
       console.error('Error: ', error);
     }

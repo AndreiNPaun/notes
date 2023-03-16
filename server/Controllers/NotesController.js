@@ -27,7 +27,7 @@ const write = async (req, res, next) => {
     });
 
     await notes.save();
-    res.json({ message: 'Note added.' });
+    res.json({ message: 'Note added.', note: notes });
   } catch (error) {
     res.json({ message: `An error has occured: ${error}` });
   }
