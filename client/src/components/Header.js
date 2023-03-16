@@ -1,43 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import cookie from 'js-cookie';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeToken } from '../store/action/token';
 
-import Logout from './Authentication/Logout';
-import HeaderStyle from './HeaderStyle';
-
-// promise that it will get the token once it is stored in local storage
-const getToken = () => {
-  return new Promise((resolve) => {
-    const token = cookie.get('token');
-    if (token) {
-      resolve(token);
-    } else {
-      setTimeout(() => {
-        resolve(getToken());
-      }, 200);
-    }
-  });
-};
+import HeaderStyle from './UI/HeaderStyle';
 
 const Header = () => {
-  const [token, setToken] = useState(null);
+  const dispatch = useDispatch();
+
+  const token = useSelector((state) => state.token.token);
+
   const [nav, setNav] = useState([
     { text: 'Login', path: 'login' },
     { text: 'Register', path: 'register' },
   ]);
 
-  // awaits for token
-  useEffect(() => {
-    async function fetchToken() {
-      const token = await getToken();
-      setToken(token);
-    }
-    fetchToken();
-  }, [getToken]);
+  // unsets the token if logout option is present on header and clicked on and redirects back home
+  const logoutToken = () => {
+    dispatch(removeToken());
+
+    window.location.reload(false);
+  };
 
   // updates navbar once the token state changes
   useEffect(() => {
     if (token) {
-      setNav([{ text: 'Logout', path: '', onClick: Logout }]);
+      setNav([{ text: 'Logout', path: '', onClick: logoutToken }]);
     }
   }, [token]);
 
