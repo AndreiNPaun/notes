@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import cookie from 'js-cookie';
 import { Center, Flex, Text } from '@chakra-ui/react';
+import { useSelector } from 'react-redux';
 
 import CreateNotes from './Notes/CreateNote';
 import ListNotes from './Notes/ListNotes';
@@ -15,7 +15,7 @@ const Home = () => {
     p: '2rem',
   };
 
-  const token = cookie.get('token');
+  const token = useSelector((state) => state.token.token);
 
   const [loading, setLoading] = useState(true);
   const [content, setContent] = useState(

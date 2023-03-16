@@ -1,19 +1,23 @@
 import React, { useState, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { noteActions } from '../../store/slice/note';
 import axios from 'axios';
-import cookie from 'js-cookie';
 
 import Card from '../UI/Card';
 import Button from '../UI/Button';
 import { Center, FormLabel, Textarea, Flex } from '@chakra-ui/react';
 
 const CreateNotes = () => {
+  const dispatch = useDispatch();
+
+  const token = useSelector((state) => state.token.token);
+
   const [createNote, setCreateNote] = useState(false);
 
   const inputNoteRef = useRef();
 
   const noteSubmit = async (note) => {
     try {
-      const token = cookie.get('token');
       const response = await axios.post(
         'http://localhost:8000/api/notes/write',
         note,
@@ -40,15 +44,20 @@ const CreateNotes = () => {
     setCreateNote(false);
   };
 
-  const submitNoteHandler = () => {
+  const submitNoteHandler = (event) => {
+    event.preventDefault();
+
     const formInput = inputNoteRef.current.value;
     const note = {
       note: formInput,
     };
 
     noteSubmit(note);
-
     inputNoteRef.current.value = '';
+
+    dispatch(noteActions.addNote(note.note));
+
+    setCreateNote(false);
   };
 
   // styles

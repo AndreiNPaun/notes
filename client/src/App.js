@@ -1,7 +1,9 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Provider } from 'react-redux';
+
+import store from './store/index';
 
 import { ChakraProvider } from '@chakra-ui/react';
-
 import Homepage from './pages/Homepage';
 import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
@@ -22,9 +24,11 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
-      <ChakraProvider>
-        <RouterProvider router={router} />
-      </ChakraProvider>
+      <Provider store={store}>
+        <ChakraProvider>
+          <RouterProvider router={router} />
+        </ChakraProvider>
+      </Provider>
     </>
   );
 }
