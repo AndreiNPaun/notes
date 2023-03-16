@@ -11,7 +11,11 @@ const noteSlice = createSlice({
   initialState,
   reducers: {
     addNote(state, action) {
-      state.note = action.payload;
+      if (Array.isArray(action.payload)) {
+        state.note = action.payload;
+      } else {
+        state.note.push(action.payload);
+      }
     },
     removeNote(state, action) {
       state.note = state.note.filter((note) => note.id !== action.payload);

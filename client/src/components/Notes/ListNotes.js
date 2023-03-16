@@ -17,7 +17,7 @@ const ListNotes = () => {
   const loading = useSelector((state) => state.note.loading);
 
   useEffect(() => {
-    dispatch(fetchNotes(token));
+    dispatch(fetchNotes({ token }));
   }, []);
 
   let content = <p>Found no notes.</p>;
