@@ -1,6 +1,7 @@
-import axios from 'axios';
 import { noteActions } from '../slice/note';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+
+import useHttp from '../../hooks/useHttp';
 
 export const fetchNotes = createAsyncThunk(
   'note/fetchNotes',
@@ -8,20 +9,19 @@ export const fetchNotes = createAsyncThunk(
     dispatch(noteActions.loading(true));
 
     try {
-      const response = await axios.get('http://localhost:8000/api/notes/', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      const loadedNotes = [];
+
+      const response = await useHttp({
+        url: 'http://localhost:8000/api/notes/',
+        token,
       });
 
-      const data = await response.data;
-      const loadedNotes = [];
-      const resp = data.response;
+      const data = response.response;
 
-      for (const key in resp) {
+      for (const key in data) {
         loadedNotes.push({
-          id: resp[key]._id,
-          note: resp[key].note,
+          id: data[key]._id,
+          note: data[key].note,
         });
       }
 
@@ -39,18 +39,13 @@ export const submitNote = createAsyncThunk(
   'note/addNote',
   async ({ note, token }, { dispatch }) => {
     try {
-      const response = await axios.post(
-        'http://localhost:8000/api/notes/write',
-        { note },
-        {
-          headers: {
-            'Content-type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const data = await useHttp({
+        method: 'post',
+        url: 'http://localhost:8000/api/notes/write',
+        values: { note },
+        token,
+      });
 
-      const data = await response.data;
       const noteData = {
         note: data.note.note,
         id: data.note._id,
@@ -66,16 +61,12 @@ export const deleteNote = createAsyncThunk(
   'note/deleteNote',
   async ({ token, noteId }, { dispatch }) => {
     try {
-      await axios.post(
-        `http://localhost:8000/api/notes/delete`,
-        { id: noteId },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await useHttp({
+        method: 'post',
+        url: `http://localhost:8000/api/notes/delete`,
+        values: { id: noteId },
+        token,
+      });
 
       dispatch(noteActions.removeNote(noteId));
     } catch (error) {

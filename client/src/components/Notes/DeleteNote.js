@@ -2,14 +2,14 @@ import { HStack } from '@chakra-ui/react';
 import React from 'react';
 import Button from '../UI/Button';
 
-import { useSelector, useDispatch } from 'react-redux';
-import { deleteNote, fetchNotes } from '../../store/action/note';
-import { noteActions } from '../../store/slice/note';
+import { useDispatch } from 'react-redux';
+import { deleteNote } from '../../store/action/note';
 
 const DeleteNote = (props) => {
   const dispatch = useDispatch();
+
   const purge = async () => {
-    console.log('delete comp', props.noteID);
+    console.log('deleted note: ', props.noteID);
     try {
       await dispatch(deleteNote({ token: props.token, noteId: props.noteID }));
     } catch (error) {

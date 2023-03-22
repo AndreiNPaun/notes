@@ -20,8 +20,8 @@ const noteSlice = createSlice({
     removeNote(state, action) {
       state.note = state.note.filter((note) => note.id !== action.payload);
     },
-    loading(state) {
-      state.loading = true;
+    loading(state, action) {
+      state.loading = action.payload;
     },
     setError(state, action) {
       state.error = action.payload;
