@@ -1,5 +1,8 @@
 import React, { useEffect } from 'react';
 
+import { FcGoogle } from 'react-icons/fc';
+import { Link, Button } from '@chakra-ui/react';
+
 import { useDispatch } from 'react-redux';
 import { setTokenFromURL } from '../../../store/action/token';
 import { useNavigate } from 'react-router-dom';
@@ -23,9 +26,19 @@ const GoogleAuth = (props) => {
   }, []);
 
   return (
-    <div>
-      <a href="http://localhost:8000/api/auth/google">Google</a>
-    </div>
+    <Link
+      // _hover={{ textDecoration: 'none' }}
+      href="http://localhost:8000/api/auth/google"
+    >
+      <Button
+        bg="#FFFFFF"
+        border="1px solid #ccc"
+        borderColor="rgba(0, 0, 0, 0.15)"
+        leftIcon={<FcGoogle size={26} />}
+      >
+        Sign In with Google
+      </Button>
+    </Link>
   );
 };
 
