@@ -27,7 +27,7 @@ const GoogleAuth = (props) => {
 
   return (
     <Link
-      _hover={{ textDecoration: 'none' }}
+      // _hover={{ textDecoration: 'none' }}
       href="http://localhost:8000/api/auth/google"
     >
       <Button
