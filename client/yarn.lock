@@ -24,6 +24,18 @@
     jsonpointer "^5.0.0"
     leven "^3.1.0"
 
+"@azure/msal-browser@^2.33.0":
+  version "2.35.0"
+  resolved "https://registry.yarnpkg.com/@azure/msal-browser/-/msal-browser-2.35.0.tgz#39b553f5da140d5d16bf90e0d92f1bcc6f0d61d3"
+  integrity sha512-L+gSBbJfU3H81Bnj+VIVjO7jRpt2Ex+4i2YVOPE50ykfQ5W9mtBFMRCHb1K+8FzTeyQH/KkQv6bC+MdaU+3LEw==
+  dependencies:
+    "@azure/msal-common" "^12.0.0"
+
+"@azure/msal-common@^12.0.0":
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/@azure/msal-common/-/msal-common-12.0.0.tgz#bcb41fd31657a34c4218ec38332de76ec6bf03e6"
+  integrity sha512-SvQl4JWy1yZnxyq0xng/urf103wz68UJG0K9Dq2NM2to7ePA+R1hMisKnXELJvZrEGYANGbh/Hc0T9piGqOteQ==
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.16.0", "@babel/code-frame@^7.18.6", "@babel/code-frame@^7.8.3":
   version "7.18.6"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.18.6.tgz#3b25d38c89600baa2dcc219edfa88a74eb2c427a"
@@ -2491,6 +2503,11 @@
   version "2.11.6"
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.6.tgz#cee20bd55e68a1720bdab363ecf0c821ded4cd45"
   integrity sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==
+
+"@react-oauth/google@^0.9.0":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@react-oauth/google/-/google-0.9.0.tgz#af65ee0c6238a0988056d9e820029f99255f8381"
+  integrity sha512-iq9I6A4uwZezU/BixqLM6UET6an559ufC4Nh0lEIeIaKC3TJRvcPNWCjjHny56yAhgdT6ivUicLIvEoiSMjnmg==
 
 "@reduxjs/toolkit@^1.9.3":
   version "1.9.3"
@@ -8593,6 +8610,13 @@ react-is@^18.0.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
+
+react-microsoft-login@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-microsoft-login/-/react-microsoft-login-2.0.1.tgz#93ee40956a2b9728b5b995de4074384a52645563"
+  integrity sha512-zTc8lPQ+d3ByNu+PA9NA15pnkEJNGrtxjJWkO8mypGgT8l6bPSH+lZDqxKisRaQ6SHjnuiNa3ULcU5b0kt9djA==
+  dependencies:
+    "@azure/msal-browser" "^2.33.0"
 
 react-redux@^8.0.5:
   version "8.0.5"

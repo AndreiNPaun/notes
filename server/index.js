@@ -2,9 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const cors = require('cors');
-
 const dotenv = require('dotenv');
 dotenv.config();
+
+const passport = require('./middleware/Passport');
 
 const AuthRoute = require('./Routes/Authenticate');
 const NotesRoute = require('./Routes/Notes');
@@ -32,9 +33,14 @@ app.use(
   cors({
     origin: 'http://localhost:3000',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'Access-Control-Allow-Origin',
+    ],
   })
 );
+app.use(passport.initialize());
 
 const PORT = process.env.PORT || 8000;
 
