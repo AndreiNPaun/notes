@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import { setToken } from '../../store/action/token';
+import GoogleAuth from './ThirdParties/GoogleAuth';
+import MicrosoftAuth from './ThirdParties/MicrosoftAuth';
 
 import Card from '../UI/Card';
 import InputFields from '../UI/InputFields';
@@ -20,6 +22,11 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [labelStyle, inputStyle, cardStyle] = Styles();
 
+  // get tokens from url if they exist
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get('token');
+  const refreshToken = urlParams.get('refreshToken');
+
   const loginHandler = async (event) => {
     event.preventDefault();
 
@@ -31,8 +38,10 @@ const Login = () => {
       password: enteredPassword,
     };
 
+    const url = 'http://localhost:8000/api/login';
+
     try {
-      dispatch(setToken(user));
+      dispatch(setToken(user, url));
       navigate('/');
     } catch (error) {
       setErrorMessage('Invalid email and/ or password.');
@@ -67,6 +76,12 @@ const Login = () => {
         <Center mt="1rem">
           <Button type="submit">Login</Button>
         </Center>
+        <Center m="0.3rem">
+          <GoogleAuth token={token} refreshToken={refreshToken} />
+        </Center>
+        {/* <Center>
+          <MicrosoftAuth />
+        </Center> */}
       </form>
     </Card>
   );
