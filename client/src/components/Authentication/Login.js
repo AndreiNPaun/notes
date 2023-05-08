@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 
 import { setToken } from '../../store/action/token';
 import GoogleAuth from './ThirdParties/GoogleAuth';
-import MicrosoftAuth from './ThirdParties/MicrosoftAuth';
 
 import Card from '../UI/Card';
 import InputFields from '../UI/InputFields';
@@ -79,9 +78,6 @@ const Login = () => {
         <Center m="0.3rem">
           <GoogleAuth token={token} refreshToken={refreshToken} />
         </Center>
-        {/* <Center>
-          <MicrosoftAuth />
-        </Center> */}
       </form>
     </Card>
   );
