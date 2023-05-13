@@ -40,14 +40,13 @@ const Register = () => {
 
     console.log(enteredConfirmPassword);
 
-    // Come back for validation
-    // if (enteredUsername.trim().length === 0 && enteredEmail.trim().length < 4 && enteredPassword.trim().length < 5) {
-    //   Error
-    // }
+    if (enteredEmail.trim().length < 4 && enteredPassword.trim().length < 5) {
+      throw new Error('get fked');
+    }
 
-    // if (enteredConfirmPassword !== enteredPassword) {
-    //   throw Error('Passwords do not match.');
-    // }
+    if (enteredConfirmPassword !== enteredPassword) {
+      throw new Error('Passwords do not match.');
+    }
 
     const user = {
       email: enteredEmail,
