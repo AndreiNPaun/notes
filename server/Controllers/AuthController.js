@@ -1,27 +1,20 @@
 const User = require('../Models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { validationResult } = require('express-validator');
 
 const register = async (req, res, next) => {
   try {
-    const existingEmail = await User.findOne({ email: req.body.email });
-    const exisingUsername = await User.findOne({ username: req.body.email });
+    // express-validator (routes) error display
+    const errors = validationResult(req);
 
-    if (existingEmail) {
-      return res.json({
-        error: 'Email already exists',
-      });
-    }
-
-    if (exisingUsername) {
-      return res.json({
-        error: 'Username already exists',
-      });
+    if (!errors.isEmpty()) {
+      console.log(errors.array()[0].msg);
+      return res.status(422).json({ error: errors.array()[0].msg });
     }
 
     const hashedPass = await bcrypt.hash(req.body.password, 10);
     const user = new User({
-      username: req.body.username,
       email: req.body.email,
       password: hashedPass,
     });
@@ -39,19 +32,16 @@ const register = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   try {
+    // express-validator (routes) error display
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      console.log(errors.array()[0].msg);
+      return res.status(422).json({ error: errors.array()[0].msg });
+    }
+
     const email = req.body.email;
-    const password = req.body.password;
-
-    const user = await User.findOne({ email: email });
-
-    if (!user) {
-      return res.json({ message: 'User not found.' });
-    }
-
-    const passwordMatch = await bcrypt.compare(password, user.password);
-    if (!passwordMatch) {
-      return res.json({ message: 'Wrong password.' });
-    }
+    const user = await User.findOne({ email });
 
     const token = jwt.sign(
       { email: user.email, id: user._id },

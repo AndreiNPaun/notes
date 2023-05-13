@@ -11,9 +11,9 @@ import Styles from '../UI/LoginRegiserFormStyles';
 const Register = () => {
   const navigate = useNavigate();
 
-  const usernameInputRef = useRef();
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
+  const confirmPasswordInputRef = useRef();
 
   const [labelStyle, inputStyle, cardStyle] = Styles();
 
@@ -34,26 +34,32 @@ const Register = () => {
   const registerHandler = (event) => {
     event.preventDefault();
 
-    const enteredUsername = usernameInputRef.current.value;
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
+    const enteredConfirmPassword = confirmPasswordInputRef.current.value;
+
+    console.log(enteredConfirmPassword);
 
     // Come back for validation
     // if (enteredUsername.trim().length === 0 && enteredEmail.trim().length < 4 && enteredPassword.trim().length < 5) {
     //   Error
     // }
 
+    // if (enteredConfirmPassword !== enteredPassword) {
+    //   throw Error('Passwords do not match.');
+    // }
+
     const user = {
-      username: enteredUsername,
       email: enteredEmail,
       password: enteredPassword,
+      confirmPassword: enteredConfirmPassword,
     };
 
     register(user);
 
-    usernameInputRef.current.value = '';
     emailInputRef.current.value = '';
     passwordInputRef.current.value = '';
+    confirmPasswordInputRef.current.value = '';
 
     navigate('/login');
   };
@@ -64,18 +70,9 @@ const Register = () => {
         <InputFields
           labelStyle={labelStyle}
           inputStyle={inputStyle}
-          htmlFor="username"
-          labelText="Username"
-          id="username"
-          ref={usernameInputRef}
-        />
-
-        <InputFields
-          labelStyle={labelStyle}
-          inputStyle={inputStyle}
           htmlFor="email"
           labelText="Email"
-          type="email"
+          type="text"
           id="email"
           ref={emailInputRef}
         />
@@ -88,6 +85,16 @@ const Register = () => {
           type="password"
           id="password"
           ref={passwordInputRef}
+        />
+
+        <InputFields
+          labelStyle={labelStyle}
+          inputStyle={inputStyle}
+          htmlFor="confirmPassport"
+          labelText="Confirm Password"
+          type="password"
+          id="confirmPassport"
+          ref={confirmPasswordInputRef}
         />
         <Center mt="1rem">
           <Button type="submit">Register</Button>
