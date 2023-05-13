@@ -1,4 +1,5 @@
 const Notes = require('../Models/Notes');
+const { validationResult } = require('express-validator');
 
 const { getUserIDFromToken } = require('../middleware/UserIDToken');
 
@@ -21,6 +22,14 @@ const list = async (req, res, next) => {
 // write notes
 const write = async (req, res, next) => {
   try {
+    // express-validator (routes) error display
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      console.log(errors.array()[0].msg);
+      return res.status(422).json({ error: errors.array()[0].msg });
+    }
+
     const notes = new Notes({
       note: req.body.note,
       user_id: getUserIDFromToken(req.headers.authorization),
