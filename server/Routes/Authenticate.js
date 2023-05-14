@@ -3,22 +3,12 @@ const router = express.Router();
 const passport = require('passport');
 const { body } = require('express-validator');
 
-const User = require('../Models/User');
-const bcrypt = require('bcryptjs');
-
 const AuthController = require('../Controllers/AuthController');
 
 router.post(
   '/register',
   [
-    body('email', 'Invalid email format.')
-      .isEmail()
-      .custom(async (email, { req }) => {
-        const userData = await User.findOne({ email });
-        if (userData) {
-          throw new Error('E-mail address already exists.');
-        }
-      }),
+    body('email', 'Invalid email format.').isEmail(),
     body('password', 'Invalid password.')
       .isLength({ min: 5 })
       .custom((password, { req }) => {
@@ -33,24 +23,8 @@ router.post(
 router.post(
   '/login',
   [
-    body('email', 'Wrong email.')
-      .isEmail()
-      .custom(async (email, { req }) => {
-        const userData = await User.findOne({ email });
-        if (!userData) {
-          throw new Error('User not found.');
-        }
-      }),
-    body('password', 'Wrong password.')
-      .trim()
-      .notEmpty()
-      .custom(async (password, { req }) => {
-        const userData = await User.findOne({ email: req.body.email });
-        const passwordMatch = await bcrypt.compare(password, userData.password);
-        if (!passwordMatch) {
-          throw new Error('Wrong password.');
-        }
-      }),
+    body('email', 'User not found.').isEmail(),
+    body('password', 'Wrong password.').trim().notEmpty(),
   ],
   AuthController.login
 );
@@ -69,10 +43,12 @@ router.get(
     const token = req.user.token;
     const refreshToken = req.user.refreshToken;
     req.user
-      ? res.redirect(
-          `http://localhost:3000/login?token=${token}&refreshToken=${refreshToken}`
-        )
-      : res.redirect('http://localhost:3000/login');
+      ? res
+          .status(302)
+          .redirect(
+            `http://localhost:3000/login?token=${token}&refreshToken=${refreshToken}`
+          )
+      : res.status(401).redirect('http://localhost:3000/login');
   }
 );
 

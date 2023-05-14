@@ -9,12 +9,12 @@ const list = async (req, res, next) => {
     const id = getUserIDFromToken(req.headers.authorization);
 
     const response = await Notes.find({ user_id: id });
-    res.json({
+    res.status(200).json({
       response,
     });
   } catch (error) {
-    res.json({
-      message: `Error occured ${error}`,
+    res.status(401).json({
+      message: `An error has occured ${error}`,
     });
   }
 };
@@ -36,9 +36,9 @@ const write = async (req, res, next) => {
     });
 
     await notes.save();
-    res.json({ message: 'Note added.', note: notes });
+    res.status(201).json({ message: 'Note added.', note: notes });
   } catch (error) {
-    res.json({ message: `An error has occured: ${error}` });
+    res.status(500).json({ message: `An error has occured: ${error}` });
   }
 };
 
@@ -48,11 +48,11 @@ const purge = async (req, res, next) => {
     const noteID = req.body.id;
 
     await Notes.findOneAndRemove({ _id: noteID });
-    res.json({
+    res.status(200).json({
       message: `Note has been deleted. ${noteID}`,
     });
   } catch (error) {
-    res.json({
+    res.status(500).json({
       message: `An error has occured: ${error}`,
     });
   }
