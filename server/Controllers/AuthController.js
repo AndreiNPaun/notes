@@ -13,6 +13,12 @@ const register = async (req, res, next) => {
       return res.status(422).json({ error: errors.array()[0].msg });
     }
 
+    const existingEmail = await User.findOne({ email: req.body.email });
+    if (existingEmail) {
+      console.log('E-Mail is used.');
+      return res.status(422).json({ error: 'E-Mail address already exists.' });
+    }
+
     const hashedPass = await bcrypt.hash(req.body.password, 10);
     const user = new User({
       email: req.body.email,
@@ -20,12 +26,12 @@ const register = async (req, res, next) => {
     });
 
     await user.save();
-    res.json({
+    res.status(201).json({
       message: 'User registered',
     });
-  } catch (err) {
-    res.json({
-      error: 'An error has occured.',
+  } catch (error) {
+    res.status(500).json({
+      error: `An error has occured: ${error}`,
     });
   }
 };
@@ -41,7 +47,17 @@ const login = async (req, res, next) => {
     }
 
     const email = req.body.email;
+    const password = req.body.password;
+
     const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(422).json({ error: 'User not found.' });
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.status(422).json({ error: 'Wrong password.' });
+    }
 
     const token = jwt.sign(
       { email: user.email, id: user._id },
@@ -55,9 +71,9 @@ const login = async (req, res, next) => {
       { expiresIn: process.env.REFRESH_TOKEN_EXPIRE_TIME }
     );
 
-    res.json({ message: 'Login Successful!', token, refreshToken });
+    res.status(200).json({ message: 'Login Successful!', token, refreshToken });
   } catch (error) {
-    res.json({ error: `An error has occured: ${error}` });
+    res.status(401).json({ error: `An error has occured: ${error}` });
   }
 };
 
@@ -76,8 +92,8 @@ const refreshToken = (req, res, next) => {
       refreshToken,
     });
   } catch (error) {
-    res.status(400).json({
-      error,
+    res.status(401).json({
+      error: `An error has occured: ${error}`,
     });
   }
 };

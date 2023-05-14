@@ -14,7 +14,7 @@ const authenticate = (req, res, next) => {
       });
     } else {
       console.log(error);
-      res.json({
+      res.status(500).json({
         message: 'Authentication failed.',
       });
     }

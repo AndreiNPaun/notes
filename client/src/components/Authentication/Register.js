@@ -60,7 +60,7 @@ const Register = () => {
     passwordInputRef.current.value = '';
     confirmPasswordInputRef.current.value = '';
 
-    navigate('/login');
+    // navigate('/login');
   };
 
   return (
