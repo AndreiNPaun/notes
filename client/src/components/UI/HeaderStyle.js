@@ -18,7 +18,7 @@ const HeaderStyle = (props) => {
         <Box>
           <Link
             as={RouterLink}
-            to=""
+            to="/"
             fontSize="1.8rem"
             fontWeight="600"
             color="white"
