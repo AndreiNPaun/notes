@@ -1,11 +1,11 @@
 import React, { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { noteActions } from '../../store/slice/note';
 import { submitNote } from '../../store/action/note';
 
 import Card from '../UI/Card';
 import Button from '../UI/Button';
-import { Center, FormLabel, Textarea, Flex } from '@chakra-ui/react';
+import Modal from '../UI/Modal';
+import { Center } from '@chakra-ui/react';
 
 const CreateNotes = () => {
   const dispatch = useDispatch();
@@ -24,9 +24,7 @@ const CreateNotes = () => {
     setCreateNote(false);
   };
 
-  const submitNoteHandler = (event) => {
-    event.preventDefault();
-
+  const submitNoteHandler = () => {
     const formInput = inputNoteRef.current.value;
 
     inputNoteRef.current.value = '';
@@ -43,59 +41,33 @@ const CreateNotes = () => {
     m: '1rem auto',
   };
 
-  const labelStyle = {
-    mt: '2rem',
-    flex: 1,
-    color: '#464646',
-    mb: '0.5rem',
-  };
-
-  const textareaStyling = {
-    resize: 'none',
-    height: '6rem',
-    flex: 3,
-    padding: '0.7rem 0.7rem',
-    borderRadius: '6px',
-    border: '1px solid #ccc',
-    _focus: {
-      borderColor: '#4f005f',
-      bg: '#ebdfee',
-      boxShadow: 'none',
-    },
+  const cardModalStyle = {
+    w: '40%',
+    maxW: '50rem',
+    m: '10rem auto',
   };
 
   return (
-    <Card cardStyle={cardStyle}>
-      {!createNote && (
-        <Center>
-          <Button m="1rem" onClick={createNoteHandler}>
-            Create a New Note
-          </Button>
-        </Center>
-      )}
-      {createNote && (
-        <form onSubmit={submitNoteHandler}>
-          <Flex mt="1rem" p="2rem" alignItems="stretch" flexDirection="row">
-            <FormLabel htmlFor="note" {...labelStyle}>
-              Write a new note!
-            </FormLabel>
-            <Textarea
-              id="note"
-              ref={inputNoteRef}
-              {...textareaStyling}
-            ></Textarea>
-          </Flex>
+    <>
+      <Card cardStyle={cardStyle}>
+        {!createNote && (
           <Center>
-            <Button m="0.5rem" type="submit">
-              Create Note
-            </Button>
-            <Button m="0.5rem" onClick={closeNoteHandler}>
-              Close Form
+            <Button m="1rem" onClick={createNoteHandler}>
+              Create a New Note
             </Button>
           </Center>
-        </form>
-      )}
-    </Card>
+        )}
+        {createNote && (
+          <Modal
+            cardStyle={cardModalStyle}
+            modelText="Write your note in the field below"
+            inputNoteRef={inputNoteRef}
+            onClickCancel={closeNoteHandler}
+            onClickSubmit={submitNoteHandler}
+          />
+        )}
+      </Card>
+    </>
   );
 };
 
