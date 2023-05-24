@@ -40,7 +40,12 @@ const ListNotes = () => {
             borderBottom="solid #464646"
             p="0.75rem"
           >
-            <ListItem key={note.id} m="1rem" color="#464646">
+            <ListItem
+              key={note.id}
+              m="1rem"
+              color="#464646"
+              sx={{ wordWrap: 'break-word', maxWidth: '80%' }}
+            >
               {note.note}
             </ListItem>
             <DeleteNote noteID={note.id} token={token} />
