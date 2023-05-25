@@ -1,17 +1,13 @@
 import axios from 'axios';
 import cookie from 'js-cookie';
+import UseHttp from '../../hooks/useHttp';
+
 import { tokenActions } from '../slice/token';
 
 export const setToken = (user, url) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(url, user, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      const data = response.data;
+      const data = await UseHttp({ method: 'post', url, values: user });
 
       // sets the cookie to expire in 2h
       const expireTwoHours = 2 / 24;
@@ -20,7 +16,7 @@ export const setToken = (user, url) => {
       // update store token
       dispatch(tokenActions.login({ token: data.token }));
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   };
 };
@@ -36,7 +32,7 @@ export const setTokenFromURL = ({ token, refreshToken }) => {
       // update store token
       dispatch(tokenActions.login({ token }));
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
 };
@@ -50,7 +46,7 @@ export const removeToken = () => {
       // update store token
       dispatch(tokenActions.logout());
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
 };

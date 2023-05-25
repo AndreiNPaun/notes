@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { Center, Text } from '@chakra-ui/react';
+import UseHttp from '../../hooks/useHttp';
 
 import Card from '../UI/Card';
 import Button from '../UI/Button';
@@ -20,21 +20,6 @@ const Register = () => {
 
   const [labelStyle, inputStyle, cardStyle] = Styles();
 
-  // store data in db
-  const register = async (user) => {
-    try {
-      await axios.post('http://localhost:8000/api/register', user, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    } catch (error) {
-      console.error('Error:', error);
-      const errMess = error.response.data.error.toString();
-      return errMess;
-    }
-  };
-
   // after for submission store input data in variables and then call the register function to create user account
   const registerHandler = async (event) => {
     event.preventDefault();
@@ -49,20 +34,22 @@ const Register = () => {
       confirmPassword: enteredConfirmPassword,
     };
 
-    register(user);
+    const url = 'http://localhost:8000/api/register';
 
-    const errMess = await register(user);
+    // submits input data to server
+    try {
+      await UseHttp({ method: 'post', url, values: user });
 
-    if (errMess !== null) {
-      setErrorMessage(errMess);
-      return;
+      emailInputRef.current.value = '';
+      passwordInputRef.current.value = '';
+      confirmPasswordInputRef.current.value = '';
+
+      navigate('/login');
+    } catch (error) {
+      // return error sent from server and display it to user
+      setErrorMessage(error.response.data.error);
+      throw error;
     }
-
-    emailInputRef.current.value = '';
-    passwordInputRef.current.value = '';
-    confirmPasswordInputRef.current.value = '';
-
-    navigate('/login');
   };
 
   return (

@@ -9,7 +9,7 @@ import Card from '../UI/Card';
 import InputFields from '../UI/InputFields';
 import Button from '../UI/Button';
 import Styles from '../UI/LoginRegiserFormStyles';
-import { Center } from '@chakra-ui/react';
+import { Center, Text } from '@chakra-ui/react';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const Login = () => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
 
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState(null);
   const [labelStyle, inputStyle, cardStyle] = Styles();
 
   // get tokens from url if they exist
@@ -39,22 +39,27 @@ const Login = () => {
 
     const url = 'http://localhost:8000/api/login';
 
+    // if login is successful set up authentication token
     try {
-      dispatch(setToken(user, url));
+      await dispatch(setToken(user, url));
+      emailInputRef.current.value = '';
+      passwordInputRef.current.value = '';
       navigate('/');
     } catch (error) {
-      setErrorMessage('Invalid email and/ or password.');
-      console.error('Error:', error);
+      setErrorMessage(error.response.data.error);
+      throw error;
     }
-
-    emailInputRef.current.value = '';
-    passwordInputRef.current.value = '';
   };
 
   return (
     <Card cardStyle={cardStyle}>
       <form onSubmit={loginHandler}>
-        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+        <Center>
+          <Text fontSize="3xl">Login</Text>
+        </Center>
+        <Center>
+          {errorMessage && <Text color="red">{errorMessage}</Text>}
+        </Center>
         <InputFields
           labelStyle={labelStyle}
           inputStyle={inputStyle}
