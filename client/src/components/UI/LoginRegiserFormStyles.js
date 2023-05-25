@@ -5,8 +5,8 @@ const LoginRegiserFormStyles = () => {
   };
 
   const inputStyle = {
-    width: '85%',
-    height: '3em',
+    w: '85%',
+    h: '3em',
     p: '0.7rem 0.7rem',
     borderRadius: '6px',
     border: '1px solid #ccc',

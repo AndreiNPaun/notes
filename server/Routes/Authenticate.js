@@ -9,11 +9,11 @@ router.post(
   '/register',
   [
     body('email', 'Invalid email format.').isEmail(),
-    body('password', 'Invalid password.')
+    body('password', 'Password needs to be at least 5 characters long.')
       .isLength({ min: 5 })
       .custom((password, { req }) => {
         if (password !== req.body.confirmPassword) {
-          throw new Error('Passwords have to match.');
+          throw new Error('Passwords do not match.');
         }
         return true;
       }),

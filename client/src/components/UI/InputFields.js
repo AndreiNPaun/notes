@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FormLabel, Input, Flex } from '@chakra-ui/react';
+import { FormLabel, Input, Flex, Text } from '@chakra-ui/react';
 
 // reusable component for label and input
 const InputFields = React.forwardRef((props, ref) => {
