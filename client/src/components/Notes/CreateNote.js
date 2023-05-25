@@ -13,6 +13,7 @@ const CreateNotes = () => {
   const token = useSelector((state) => state.token.token);
 
   const [createNote, setCreateNote] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const inputNoteRef = useRef();
 
@@ -22,15 +23,19 @@ const CreateNotes = () => {
 
   const closeNoteHandler = () => {
     setCreateNote(false);
+    setErrorMessage(null);
   };
 
-  const submitNoteHandler = () => {
+  const submitNoteHandler = async () => {
     const formInput = inputNoteRef.current.value;
 
+    if (formInput.trim() === '') {
+      setErrorMessage('Field cannot be empty.');
+      return;
+    }
+
+    dispatch(submitNote({ note: formInput, token }));
     inputNoteRef.current.value = '';
-
-    dispatch(submitNote({ note: formInput, token: token }));
-
     setCreateNote(false);
   };
 
@@ -42,9 +47,13 @@ const CreateNotes = () => {
   };
 
   const cardModalStyle = {
-    w: '40%',
     maxW: '50rem',
     m: '10rem auto',
+  };
+
+  const propagationBoxStyle = {
+    w: '40%',
+    ml: '30%',
   };
 
   return (
@@ -60,7 +69,9 @@ const CreateNotes = () => {
         {createNote && (
           <Modal
             cardStyle={cardModalStyle}
+            propagationBox={propagationBoxStyle}
             modelText="Write your note in the field below"
+            errorText={errorMessage}
             inputNoteRef={inputNoteRef}
             onClickCancel={closeNoteHandler}
             onClickSubmit={submitNoteHandler}

@@ -21,9 +21,12 @@ const Modal = (props) => {
 
   return (
     <Box {...backgroundStyle} onClick={props.onClickCancel}>
-      <Box onClick={stopPropagation}>
+      <Box bg="green" sx={props.propagationBox} onClick={stopPropagation}>
         <Card cardStyle={props.cardStyle}>
           <Text p="1.5rem">{props.modelText}</Text>
+          <Text pl="1.5rem" pb="0.3rem" color="red">
+            {props.errorText}
+          </Text>
           <Center>
             <Textarea w="90%" h="10rem" ref={props.inputNoteRef}></Textarea>
           </Center>

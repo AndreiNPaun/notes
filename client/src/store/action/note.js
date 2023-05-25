@@ -53,6 +53,7 @@ export const submitNote = createAsyncThunk(
       dispatch(noteActions.addNote(noteData));
     } catch (error) {
       console.error('Error:', error);
+      dispatch(noteActions.setError(error.message));
     }
   }
 );
