@@ -3,7 +3,7 @@ import axios from 'axios';
 const useHttp = async ({ method = 'get', url, values, token }) => {
   const options = {
     headers: {
-      'Content-type': 'application/json',
+      'Content-Type': 'application/json',
     },
   };
 

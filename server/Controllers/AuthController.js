@@ -78,9 +78,10 @@ const login = async (req, res, next) => {
 };
 
 const refreshToken = (req, res, next) => {
+  console.log('pplm', req.body.refreshToken);
   try {
     const refreshToken = req.body.refreshToken;
-    const verify = jwt.verify(refreshToken, process.env.Refresh_TOKEN_SECRET);
+    const verify = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
     const token = jwt.sign(
       { email: verify.email, id: verify._id },
       process.env.ACCESS_TOKEN_SECRET,
@@ -92,7 +93,7 @@ const refreshToken = (req, res, next) => {
       refreshToken,
     });
   } catch (error) {
-    res.status(401).json({
+    res.status(400).json({
       error: `An error has occured: ${error}`,
     });
   }

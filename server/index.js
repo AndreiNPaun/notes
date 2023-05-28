@@ -10,7 +10,7 @@ const passport = require('./middleware/Passport');
 const AuthRoute = require('./Routes/Authenticate');
 const NotesRoute = require('./Routes/Notes');
 
-mongoose.connect('mongodb://localhost:27017/notes', {
+mongoose.connect(process.env.MONGODB_LINK, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -31,7 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: process.env.FRONTEND_LINK,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: [
       'Content-Type',

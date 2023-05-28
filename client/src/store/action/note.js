@@ -12,7 +12,7 @@ export const fetchNotes = createAsyncThunk(
       const loadedNotes = [];
 
       const response = await useHttp({
-        url: 'http://localhost:8000/api/notes/',
+        url: process.env.REACT_APP_NOTE_LIST,
         token,
       });
 
@@ -41,7 +41,7 @@ export const submitNote = createAsyncThunk(
     try {
       const data = await useHttp({
         method: 'post',
-        url: 'http://localhost:8000/api/notes/write',
+        url: process.env.REACT_APP_NOTE_WRITE,
         values: { note },
         token,
       });
@@ -64,7 +64,7 @@ export const deleteNote = createAsyncThunk(
     try {
       await useHttp({
         method: 'post',
-        url: `http://localhost:8000/api/notes/delete`,
+        url: process.env.REACT_APP_NOTE_DELETE,
         values: { id: noteId },
         token,
       });

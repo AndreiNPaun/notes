@@ -1,1 +1,3 @@
-#Notes App
+# Notes App
+
+### App developed with MERN Stack.

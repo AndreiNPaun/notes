@@ -9,11 +9,19 @@ export const setToken = (user, url) => {
       const data = await UseHttp({ method: 'post', url, values: user });
 
       // sets the cookie to expire in 2h
-      const expireTwoHours = 2 / 24;
+      const expireTwoHours = 3 / 24;
       cookie.set('token', data.token, { expires: expireTwoHours });
+      cookie.set('refreshToken', data.refreshToken, {
+        expires: 15,
+      });
 
       // update store token
-      dispatch(tokenActions.login({ token: data.token }));
+      dispatch(
+        tokenActions.login({
+          token: data.token,
+          refreshToken: data.refreshToken,
+        })
+      );
     } catch (error) {
       throw error;
     }
@@ -26,7 +34,7 @@ export const setTokenFromURL = ({ token, refreshToken }) => {
       // sets the cookie to expire in 2h
       const expireTwoHours = 2 / 24;
       cookie.set('token', token, { expires: expireTwoHours });
-      cookie.set('refreshToken', refreshToken, { expires: expireTwoHours });
+      cookie.set('refreshToken', refreshToken, { expires: 15 });
 
       // update store token
       dispatch(tokenActions.login({ token }));
